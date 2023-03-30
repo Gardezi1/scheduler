@@ -1,4 +1,7 @@
+import { useSelector } from 'react-redux';
+
 import { capitalizeEachWordInString } from '../../utils/string'
+import Dropdown from '../dropdown';
 
 /**
  * Component responsible for showing each slot row
@@ -9,6 +12,10 @@ import { capitalizeEachWordInString } from '../../utils/string'
  * @returns 
  */
 export default function SlotRow ({shift, slot, days, onClick}) {
+
+    const users =  useSelector(state => state.users);
+    const staffMembers = Object.keys(users);
+
     return (
         <tr>
             <td>
@@ -17,7 +24,9 @@ export default function SlotRow ({shift, slot, days, onClick}) {
                 }
             </td>
             {days.map(day => (
-                <td onClick={onClick}>{day}</td>
+                <td>
+                    <Dropdown options={staffMembers} onChange={onClick}/>
+                </td>
             ))}
         </tr>
     )
