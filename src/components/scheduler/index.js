@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import Table from 'react-bootstrap/Table';
 
 import SlotRow from './slot-row';
 
 import { userSlice }  from "../../redux/user-slice"
+import UndoRedo from '../undo-redo'
 
 import { capitalizeEachWordInString } from '../../utils/string'
 import { DAYS } from '../../utils/constants';
@@ -22,7 +24,10 @@ export default function Scheduler() {
 
     const {actions: {addUserShift, removeUserShift}} = userSlice; 
     const dispatch = useDispatch()
-    const users = useSelector(state => state.users);
+    const usersState = useSelector(state => state.users);
+
+    console.log("The user state is : ", usersState.present)
+    const users = usersState.present;
 
     /**
      * check if the user has been assigned two shifts in a day 
@@ -70,7 +75,9 @@ export default function Scheduler() {
     }
 
     const onUserSelect = (user, day, shift, slot) => {
-        if (checkShiftAssignment(user, day, shift)) {
+        if (user === "") {
+            dispatch(UndoActionCreators.undo()) 
+        } else if (checkShiftAssignment(user, day, shift)) {
             alert("Two slots cannot be assigned in a single shift");
         } else if (isAssignedTwoShiftInADay(user, day)) {
             alert("You cannot assign more then 2 shift in a single day")
@@ -82,22 +89,30 @@ export default function Scheduler() {
     }
 
     return (
-        <Table responsive>
-            <thead>
-                <tr>
-                    <th></th>
-                    {DAYS.map((day, index) => (
-                        <th key={index}>{capitalizeEachWordInString(day)}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
-                        <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, day) => onUserSelect(user, day, shift, slot)} />
-                    ))
-                }
-            </tbody>
-        </Table>
+        <>
+            <UndoRedo 
+                canUndo={usersState.past.length > 0} 
+                canRedo={usersState.future.length > 0 }
+                onUndo={() => dispatch(UndoActionCreators.undo())}
+                onRedo= {() => dispatch(UndoActionCreators.redo())}
+            />
+            <Table responsive>
+                <thead>
+                    <tr>
+                        <th></th>
+                        {DAYS.map((day, index) => (
+                            <th key={index}>{capitalizeEachWordInString(day)}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
+                            <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, day) => onUserSelect(user, day, shift, slot)} />
+                        ))
+                    }
+                </tbody>
+            </Table>
+        </>
     )   
 };

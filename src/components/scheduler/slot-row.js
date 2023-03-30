@@ -13,7 +13,7 @@ import Dropdown from '../dropdown';
  */
 export default function SlotRow ({shift, slot, days, onClick}) {
 
-    const users =  useSelector(state => state.users);
+    const users =  useSelector(state => state.users.present);
     const staffMembers = Object.keys(users);
 
     return (

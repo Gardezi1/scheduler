@@ -10,7 +10,7 @@ import { DAYS } from '../../utils/constants';
  */
 export default function Load() {
     
-    const users =  useSelector(state => state.users);
+    const users =  useSelector(state => state.users.present);
     const staffMembers = Object.keys(users);
 
     /**

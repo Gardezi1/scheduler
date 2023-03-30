@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 /**
  * Initial State
  */
@@ -19,9 +20,8 @@ export const userSlice = createSlice({
     reducers: {
         /**
          * Add a user shift
-         * @param {string} user 
-         * @param {string} slot 
-         * @param {string} time 
+         * @param {*} state
+         * @param {*} action
          */
         addUserShift: (state, action ) => {
             const {user, day, slot, shift} = action.payload
@@ -33,9 +33,8 @@ export const userSlice = createSlice({
         },
         /**
          * Remove user shift
-         * @param {string} user 
-         * @param {string} slot 
-         * @param {string} time 
+         * @param {*} state
+         * @param {*} action
          */
         removeUserShift: (state, action) => {
             const {user, day, slot, shift} = action.payload
