@@ -37,7 +37,7 @@ export default function SlotRow ({shift, slot, days, onClick}) {
                     <Dropdown 
                         options={staffMembers} 
                         selectedValue={getSelectedUser(day)} 
-                        onChange={(user) => onClick(user, day)}
+                        onChange={(user, previousUser) => onClick(user, previousUser, day)}
                     />
                 </td>
             ))}

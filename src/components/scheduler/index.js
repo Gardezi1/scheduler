@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import Table from 'react-bootstrap/Table';
@@ -71,9 +72,10 @@ export default function Scheduler() {
         return users[user].filter(shiftSlot => shiftSlot.indexOf(`${day}-lunch`) !== -1).length === 2
     }
 
-    const onUserSelect = (user, day, shift, slot) => {
+    const onUserSelect = (user, previousUser, day, shift, slot) => {
+        console.log("The previous user is: ", previousUser);
         if (user === "") {
-            dispatch(UndoActionCreators.undo()) 
+            dispatch(removeUserShift({user, day, shift, slot})) 
         } else if (checkShiftAssignment(user, day, shift)) {
             alert("Two slots cannot be assigned in a single shift");
         } else if (isAssignedTwoShiftInADay(user, day)) {
@@ -105,7 +107,7 @@ export default function Scheduler() {
                 <tbody>
                     {
                         Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
-                            <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, day) => onUserSelect(user, day, shift, slot)} />
+                            <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, previousUser, day) => onUserSelect(user, previousUser, day, shift, slot)} />
                         ))
                     }
                 </tbody>

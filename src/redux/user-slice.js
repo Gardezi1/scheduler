@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 /**
  * Initial State
  */
@@ -38,10 +37,16 @@ export const userSlice = createSlice({
          */
         removeUserShift: (state, action) => {
             const {user, day, slot, shift} = action.payload
-            const data = {
+            let foundUser = user
+            let data = null
+            if (user  === "") {
+                foundUser = Object.keys(state).find(user => state[user].includes(`${day}-${shift}-${slot}`))
+            } 
+            data = {
                 ...state,
-                [user]: [state[user].filter(shiftSlot => shiftSlot !==`${day}-${shift}-${slot}`)]
+                [foundUser]: [...state[foundUser].filter(shiftSlot => shiftSlot !==`${day}-${shift}-${slot}`)]
             }
+            
             return data
         }
     }
