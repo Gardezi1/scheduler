@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 
 import SlotRow from './slot-row';
 
-import { capitalize } from '../../utils/string'
+import { capitalizeEachWordInString } from '../../utils/string'
 import { DAYS } from '../../utils/constants';
 
 const SHIFTS = {
@@ -11,7 +11,10 @@ const SHIFTS = {
     'afternoon': ['up_stairs', 'down_stairs', 'parking_lot']
 }
 
-
+/**
+ * Component responsible for rendering the scheduler table
+ * @returns 
+ */
 export default function Scheduler() {
     return (
         <Table responsive>
@@ -19,15 +22,15 @@ export default function Scheduler() {
                 <tr>
                     <th></th>
                     {DAYS.map((day, index) => (
-                        <th key={index}>{capitalize(day)}</th>
+                        <th key={index}>{capitalizeEachWordInString(day)}</th>
                     ))}
                 </tr>
             </thead>
             <tbody>
                 {
-                    Object.key(SHIFTS).map(shift => SHIFTS[shift].map(slot => (
+                    Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
                         <SlotRow shift={shift} slot={slot} days={DAYS} onClick={() => alert('clicked')} />
-                    )))
+                    ))
                 }
             </tbody>
         </Table>

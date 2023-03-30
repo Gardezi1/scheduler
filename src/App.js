@@ -1,13 +1,15 @@
 import { Provider } from "react-redux";
 
-import store from "./redux/store";
+import Scheduler from "./components/scheduler";
+import Load from "./components/load";
 
-import logo from './logo.svg';
-import './App.css';
+import store from "./redux/store";
 
 function App() {
   return (
     <Provider store={store}>
+      <Scheduler />
+      <Load />
     </Provider>
   );
 }

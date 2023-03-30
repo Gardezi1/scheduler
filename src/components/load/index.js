@@ -1,18 +1,48 @@
 import { useSelector } from 'react-redux';
 import Table from 'react-bootstrap/Table';
 
-import SlotRow from './slot-row';
-
-import { capitalize } from '../../utils/string'
+import { capitalizeEachWordInString } from '../../utils/string'
 import { DAYS } from '../../utils/constants';
 
-
+/**
+ * Component responsible for rendering the Load table
+ * @returns 
+ */
 export default function Load() {
     
-    const users =  useSelector(state => state.users)
+    const users =  useSelector(state => state.users);
+    const staffMembers = Object.keys(users);
 
+    /**
+     * Get total number of shift for a staff member on a single day
+     * @param {string} staffMember 
+     * @param {string} day 
+     * @returns 
+     */
+    const getNumberOfShifts = (staffMember, day) => {
+        return 0
+    }
     
     return (
-        <div>hello world </div>
+        <Table responsive>
+            <thead>
+                <tr>
+                    <th>Staff Member</th>
+                    {DAYS.map((day, index) => (
+                        <th key={index}>{capitalizeEachWordInString(day)}</th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    staffMembers.map(staffMember => (
+                        <tr>
+                            <td>{staffMember}</td>
+                            {DAYS.map(day => <td>{getNumberOfShifts(staffMember, day)}</td>)}
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </Table>
     )   
 };
