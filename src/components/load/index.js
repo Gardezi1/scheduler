@@ -20,7 +20,11 @@ export default function Load() {
      * @returns 
      */
     const getNumberOfShifts = (staffMember, day) => {
-        return 0
+        return users[staffMember].filter(value => value.indexOf(day) !== -1).length
+    }
+
+    const getTotalShifts = (staffMember) => {
+        return users[staffMember].filter(value => value.indexOf('lunch') === -1).length
     }
     
     return (
@@ -31,6 +35,7 @@ export default function Load() {
                     {DAYS.map((day, index) => (
                         <th key={index}>{capitalizeEachWordInString(day)}</th>
                     ))}
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +44,7 @@ export default function Load() {
                         <tr>
                             <td>{staffMember}</td>
                             {DAYS.map(day => <td>{getNumberOfShifts(staffMember, day)}</td>)}
+                            <td>{getTotalShifts(staffMember)}</td>
                         </tr>
                     ))
                 }

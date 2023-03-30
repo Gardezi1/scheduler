@@ -25,7 +25,7 @@ export default function SlotRow ({shift, slot, days, onClick}) {
             </td>
             {days.map(day => (
                 <td>
-                    <Dropdown options={staffMembers} onChange={onClick}/>
+                    <Dropdown options={staffMembers} onChange={(user) => onClick(user, day)}/>
                 </td>
             ))}
         </tr>

@@ -4,72 +4,16 @@ import { createSlice } from "@reduxjs/toolkit";
  * Initial State
  */
 const initialState = {
-    'x1': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x2': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x3': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x4': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x5': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x6': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    },
-    'x7': {
-        'shifts': {
-            'monday': [],
-            'tuesday': [],
-            'wednesday': [],
-            'thursday': [],
-            'friday': [],
-        }
-    } 
+    x1: [],
+    x2: [],
+    x3: [],
+    x4: [],
+    x5: [],
+    x6: [],
+    x7: []
 }
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -79,8 +23,13 @@ const userSlice = createSlice({
          * @param {string} slot 
          * @param {string} time 
          */
-        addUserShift: (user, slot, time ) => {
-            // do some action over here
+        addUserShift: (state, action ) => {
+            const {user, day, slot, shift} = action.payload
+            const data = {
+                ...state,
+                [user]: [...state[user], `${day}-${shift}-${slot}`]
+            }
+            return data
         },
         /**
          * Remove user shift
@@ -88,8 +37,13 @@ const userSlice = createSlice({
          * @param {string} slot 
          * @param {string} time 
          */
-        removeUserShift: (user, slot, time) => {
-            // do some action over here
+        removeUserShift: (state, action) => {
+            const {user, day, slot, shift} = action.payload
+            const data = {
+                ...state,
+                [user]: [state[user].filter(shiftSlot => shiftSlot !==`${day}-${shift}-${slot}`)]
+            }
+            return data
         }
     }
 })
