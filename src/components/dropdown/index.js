@@ -1,9 +1,9 @@
-export default function Dropdown({options, onChange}) {
+export default function Dropdown({options, onChange, selectedValue}) {
     return (
         <select onChange={(e) => onChange(e.target.value)}>
-            <option value="">Select option</option>
+            <option value="" {...(selectedValue === "" && { selected: true })}>Select option</option>
             {options.map(option => (
-                <option value={option}>{option}</option>
+                <option value={option} {...(selectedValue === option && { selected: true })}>{option}</option>
             ))}
         </select>
     )

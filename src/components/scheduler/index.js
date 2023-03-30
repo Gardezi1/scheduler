@@ -25,8 +25,6 @@ export default function Scheduler() {
     const {actions: {addUserShift, removeUserShift}} = userSlice; 
     const dispatch = useDispatch()
     const usersState = useSelector(state => state.users);
-
-    console.log("The user state is : ", usersState.present)
     const users = usersState.present;
 
     /**
@@ -47,7 +45,6 @@ export default function Scheduler() {
      * @returns 
      */
     const checkShiftAssignment = (user, day, shift) => {
-        debugger
         return users[user].filter(
             shiftSlot => shiftSlot.indexOf(`${day}-${shift}`) !== -1
         ).length === 1

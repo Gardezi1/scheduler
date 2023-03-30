@@ -16,6 +16,15 @@ export default function SlotRow ({shift, slot, days, onClick}) {
     const users =  useSelector(state => state.users.present);
     const staffMembers = Object.keys(users);
 
+    const getSelectedUser = (day) => {
+        let selectedValue = "";
+        const staffMember = staffMembers.find(staffMember => users[staffMember].includes(`${day}-${shift}-${slot}`))
+        if (staffMember !== undefined) {
+            selectedValue = staffMember;
+        }
+        return selectedValue;
+    }
+
     return (
         <tr>
             <td>
@@ -25,7 +34,11 @@ export default function SlotRow ({shift, slot, days, onClick}) {
             </td>
             {days.map(day => (
                 <td>
-                    <Dropdown options={staffMembers} onChange={(user) => onClick(user, day)}/>
+                    <Dropdown 
+                        options={staffMembers} 
+                        selectedValue={getSelectedUser(day)} 
+                        onChange={(user) => onClick(user, day)}
+                    />
                 </td>
             ))}
         </tr>
