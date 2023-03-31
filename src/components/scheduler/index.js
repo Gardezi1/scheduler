@@ -27,6 +27,11 @@ export default function Scheduler() {
     const dispatch = useDispatch()
     const usersState = useSelector(state => state.users);
     const users = usersState.present;
+    
+
+    useEffect(() => {
+        localStorage.setItem("userState", JSON.stringify(usersState));
+    }, [usersState])
 
     /**
      * check if the user has been assigned two shifts in a day 
@@ -68,14 +73,15 @@ export default function Scheduler() {
      * @param {string} lunchSlot 
      * @returns 
      */
-    const isAlreadyAssignedALunchSlot = (user, day, lunchSlot) => {
-        return users[user].filter(shiftSlot => shiftSlot.indexOf(`${day}-lunch`) !== -1).length === 2
+    const isAlreadyAssignedALunchSlot = (user, day) => {
+        return users[user].find(shiftSlot => shiftSlot.indexOf(`${day}-lunch`))
     }
 
     const onUserSelect = (user, previousUser, day, shift, slot) => {
-        console.log("The previous user is: ", previousUser);
         if (user === "") {
             dispatch(removeUserShift({user, day, shift, slot})) 
+        } else if (isAlreadyAssignedALunchSlot(user, day)) {
+            alert("Only one lunch slot can be assigned in a day");
         } else if (checkShiftAssignment(user, day, shift)) {
             alert("Two slots cannot be assigned in a single shift");
         } else if (isAssignedTwoShiftInADay(user, day)) {
