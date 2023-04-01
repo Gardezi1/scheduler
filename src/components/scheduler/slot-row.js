@@ -16,6 +16,11 @@ export default function SlotRow ({shift, slot, days, onClick}) {
     const users =  useSelector(state => state.users.present);
     const staffMembers = Object.keys(users);
 
+    /**
+     * Get the selected user for a specfic day shift
+     * @param {string} day 
+     * @returns 
+     */
     const getSelectedUser = (day) => {
         let selectedValue = "";
         const staffMember = staffMembers.find(staffMember => users[staffMember].includes(`${day}-${shift}-${slot}`))

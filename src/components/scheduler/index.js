@@ -23,7 +23,7 @@ const SHIFTS = {
  */
 export default function Scheduler() {
 
-    const {actions: {addUserShift, removeUserShift}} = userSlice; 
+    const {actions: {addUserShift, removeUserShift, removeAndAddUserShift}} = userSlice; 
     const dispatch = useDispatch()
     const usersState = useSelector(state => state.users);
     const users = usersState.present;
@@ -74,20 +74,33 @@ export default function Scheduler() {
      * @returns 
      */
     const isAlreadyAssignedALunchSlot = (user, day) => {
-        return users[user].find(shiftSlot => shiftSlot.indexOf(`${day}-lunch`))
+        return users[user].find(shiftSlot => shiftSlot.indexOf(`${day}-lunch`) !== -1)
     }
 
+    const isShift = (shift) => shift !== 'lunch'
+
+    /**
+     * assign shift to the appropriate user 
+     * @param {*} user 
+     * @param {*} previousUser 
+     * @param {*} day 
+     * @param {*} shift 
+     * @param {*} slot 
+     */
     const onUserSelect = (user, previousUser, day, shift, slot) => {
+
         if (user === "") {
             dispatch(removeUserShift({user, day, shift, slot})) 
         } else if (isAlreadyAssignedALunchSlot(user, day)) {
             alert("Only one lunch slot can be assigned in a day");
-        } else if (checkShiftAssignment(user, day, shift)) {
+        } else if (checkShiftAssignment(user, day, shift) && isShift(shift)) {
             alert("Two slots cannot be assigned in a single shift");
-        } else if (isAssignedTwoShiftInADay(user, day)) {
+        } else if (isAssignedTwoShiftInADay(user, day) && isShift(shift)) {
             alert("You cannot assign more then 2 shift in a single day")
-        } else if (isAssignedSevenShiftInAWeek(user)) {
+        } else if (isAssignedSevenShiftInAWeek(user) &&  isShift(shift)) {
             alert("You cannot assign more then 7 shift in a single week")
+        } else if (previousUser !== "") {   
+            dispatch(removeAndAddUserShift({user, previousUser, day, shift, slot})) 
         } else {
             dispatch(addUserShift({user, day, shift, slot}))
         }   

@@ -6,6 +6,8 @@ import Load from "./components/load";
 
 import {store, persistor} from "./redux/store";
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 function App() {
   return (
     <Provider store={store}>

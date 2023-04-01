@@ -1,9 +1,20 @@
 import { useState } from "react"
 
-export default function Dropdown({options, onChange, selectedValue}) {
+/**
+ * Dropdown component 
+ * @param {array} options 
+ * @param {callback} onChange
+ * @param {string} selectedValue 
+ * @returns 
+ */
+export default function Dropdown({options, selectedValue, onChange}) {
 
     const [value, setValue] = useState("");
 
+    /**
+     * On option change save it to state and trigger the callback
+     * @param {*} option 
+     */
     const onOptionSelect = (option) => {
         onChange(option, value) 
         setValue(option);

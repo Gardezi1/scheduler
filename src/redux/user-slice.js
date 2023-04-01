@@ -48,6 +48,21 @@ export const userSlice = createSlice({
             }
             
             return data
+        },
+        /**
+         * if we are replacing a user then remove the old one and add
+         * a new one 
+         * @param {*} state 
+         * @param {*} action 
+         */
+        removeAndAddUserShift: (state, action) => {
+            const {user, previousUser, day, slot, shift} = action.payload;
+            const data = {
+                ...state,
+                [user]: [...state[user], `${day}-${shift}-${slot}`],
+                [previousUser]: [...state[previousUser].filter(shiftSlot => shiftSlot !==`${day}-${shift}-${slot}`)]
+            }
+            return data;
         }
     }
 })

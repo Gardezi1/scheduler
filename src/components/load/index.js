@@ -23,6 +23,11 @@ export default function Load() {
         return users[staffMember].filter(value => value.indexOf(day) !== -1).length
     }
 
+    /**
+     * Get a staff memeber total shifts
+     * @param {string} staffMember 
+     * @returns 
+     */
     const getTotalShifts = (staffMember) => {
         return users[staffMember].filter(value => value.indexOf('lunch') === -1).length
     }
