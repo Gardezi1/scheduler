@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button';
+
 
 import './index.css'
 
@@ -10,12 +12,12 @@ import './index.css'
 export default function UndoRedo({ canUndo, canRedo, onUndo, onRedo }) {
     return (
         <p className='undo-redo-container'>
-            <button onClick={onUndo} disabled={!canUndo}>
+            <Button variant="primary" onClick={onUndo} disabled={!canUndo}>
             Undo
-            </button>
-            <button onClick={onRedo} disabled={!canRedo}>
+            </Button>
+            <Button variant="primary" onClick={onRedo} disabled={!canRedo} className="button-redo">
             Redo
-            </button>
+            </Button>
         </p>
     )
 }

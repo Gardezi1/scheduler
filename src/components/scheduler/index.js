@@ -11,6 +11,8 @@ import UndoRedo from '../undo-redo'
 import { capitalizeEachWordInString } from '../../utils/string'
 import { DAYS } from '../../utils/constants';
 
+import "./index.css"
+
 const SHIFTS = {
     'morning': ['up_stairs', 'down_stairs', 'parking_lot'],
     'lunch': ['a', 'b', 'c', 'd'],
@@ -114,23 +116,25 @@ export default function Scheduler() {
                 onUndo={() => dispatch(UndoActionCreators.undo())}
                 onRedo= {() => dispatch(UndoActionCreators.redo())}
             />
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th></th>
-                        {DAYS.map((day, index) => (
-                            <th key={index}>{capitalizeEachWordInString(day)}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
-                            <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, previousUser, day) => onUserSelect(user, previousUser, day, shift, slot)} />
-                        ))
-                    }
-                </tbody>
-            </Table>
+            <div className="table-container">
+                <Table responsive striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            {DAYS.map((day, index) => (
+                                <th key={index}>{capitalizeEachWordInString(day)}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            Object.keys(SHIFTS).map(shift => SHIFTS[shift].map(slot => 
+                                <SlotRow shift={shift} slot={slot} days={DAYS} onClick={(user, previousUser, day) => onUserSelect(user, previousUser, day, shift, slot)} />
+                            ))
+                        }
+                    </tbody>
+                </Table>
+            </div>
         </>
     )   
 };

@@ -10,6 +10,7 @@ In this project, we are trying to schedule shift for staff members
 2. A staff member can be assigned a single lunch shift in a day
 3. A staff member can be assigned at most 7 shifts in a week.
 4. Error added if somebody tries to violate above features. 
+5. Undo and redo functionality 
 
 ## Available Scripts
 

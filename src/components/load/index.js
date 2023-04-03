@@ -4,6 +4,8 @@ import Table from 'react-bootstrap/Table';
 import { capitalizeEachWordInString } from '../../utils/string'
 import { DAYS } from '../../utils/constants';
 
+import './index.css';
+
 /**
  * Component responsible for rendering the Load table
  * @returns 
@@ -33,27 +35,29 @@ export default function Load() {
     }
     
     return (
-        <Table responsive>
-            <thead>
-                <tr>
-                    <th>Staff Member</th>
-                    {DAYS.map((day, index) => (
-                        <th key={index}>{capitalizeEachWordInString(day)}</th>
-                    ))}
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    staffMembers.map(staffMember => (
-                        <tr>
-                            <td>{staffMember}</td>
-                            {DAYS.map(day => <td>{getNumberOfShifts(staffMember, day)}</td>)}
-                            <td>{getTotalShifts(staffMember)}</td>
-                        </tr>
-                    ))
-                }
-            </tbody>
-        </Table>
+        <div className="table-container">
+            <Table responsive striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Staff Member</th>
+                        {DAYS.map((day, index) => (
+                            <th key={index}>{capitalizeEachWordInString(day)}</th>
+                        ))}
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        staffMembers.map(staffMember => (
+                            <tr>
+                                <td>{staffMember}</td>
+                                {DAYS.map(day => <td>{getNumberOfShifts(staffMember, day)}</td>)}
+                                <td>{getTotalShifts(staffMember)}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </Table>
+        </div>
     )   
 };
